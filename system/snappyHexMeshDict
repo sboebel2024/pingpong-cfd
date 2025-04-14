@@ -1,0 +1,106 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2412                                  |
+|   \\  /    A nd           |                                                 |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      snappyHexMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh true;
+snap            true;
+addLayers       false;
+
+geometry
+{
+    sphere
+    {
+        type triSurfaceMesh;
+        file "sphere.stl";
+        name sphere; // optional, for patch naming
+    }
+}
+
+castellatedMeshControls
+{
+    maxLocalCells 1000000;
+    maxGlobalCells 2000000;
+    minRefinementCells 50;
+    nCellsBetweenLevels 3;
+
+    features
+    (
+    );
+
+    refinementSurfaces
+    {
+        sphere
+        {
+            level (3 4);  // (min max) refinement
+            patchInfo
+            {
+                type wall;
+            }
+        }
+    }
+
+    resolveFeatureAngle 15;
+    refinementRegions
+    {
+    }
+
+    locationInMesh (0 0 0);  // Must be inside the sphere
+    allowFreeStandingZoneFaces false;
+
+}
+
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 2.0;
+    nSolveIter 30;
+    nRelaxIter 5;
+}
+
+addLayersControls
+{
+}
+
+meshQualityControls
+{
+    maxNonOrtho 65;
+    maxBoundarySkewness 20;
+    maxInternalSkewness 4;
+    maxConcave 80;
+    minFlatness 0.5;
+    minVol 1e-13;
+    minTetQuality 1e-30;
+    minArea -1;
+    minTwist 0.02;
+    minDeterminant 0.001;
+    minFaceWeight 0.02;
+    minVolRatio 0.01;
+    minTriangleTwist -1;
+
+    nSmoothScale 4;
+    errorReduction 0.75;
+}
+
+writeFlags
+(
+    scalarLevels
+    layerSets
+    layerFields
+);
+
+mergeTolerance 1e-6;

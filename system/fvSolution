@@ -1,0 +1,129 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2412                                  |
+|   \\  /    A nd           |                                                 |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+
+// Solver controls
+solvers
+{
+    p
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-06;
+        relTol          0.01;
+    }
+
+    pFinal
+    {
+        $p;
+        relTol 0;
+    }
+
+    U
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-05;
+        relTol          0.1;
+    }
+
+    UFinal
+    {
+        $U;
+        relTol 0;
+    }
+
+    k
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-05;
+        relTol          0.1;
+    }
+
+    kFinal
+    {
+        $k;
+        relTol 0;
+    }
+
+    omega
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-05;
+        relTol          0.1;
+    }
+
+    omegaFinal
+    {
+        $omega;
+        relTol 0;
+    }
+
+    nut
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-05;
+        relTol          0.1;
+    }
+
+    nutFinal
+    {
+        $nut;
+        relTol 0;
+    }
+}
+
+// PIMPLE algorithm (for transient)
+PIMPLE
+{
+    nOuterCorrectors     2;
+    nCorrectors          2;
+    nNonOrthogonalCorrectors 1;
+    correctPhi           yes;
+    momentumPredictor    yes;
+    turbulence           on;
+    consistent           yes;
+    pRefCell    0;
+    pRefValue   0;
+}
+
+// Relaxation factors (for PIMPLE)
+relaxationFactors
+{
+    fields
+    {
+        p               0.3;
+    }
+    equations
+    {
+        U               0.7;
+        "(k|omega|nut)" 0.7;
+    }
+}

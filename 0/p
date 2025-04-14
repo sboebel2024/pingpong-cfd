@@ -1,0 +1,69 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| Pressure field (p) - Open air domain setup                                |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      p;
+}
+
+dimensions      [0 2 -2 0 0 0 0];  // [kg / (m·s²)]
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            totalPressure;
+        p0              uniform 0;
+        rho             rhoInf;
+        psi             none;
+        gamma           1;
+        value           uniform 0;
+    }
+
+    outlet
+    {
+        type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
+    }
+
+    top
+    {
+        type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
+    }
+
+    bottom
+    {
+        type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
+    }
+
+    side1
+    {
+        type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
+    }
+
+    side2
+    {
+        type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
+    }
+
+    sphere
+    {
+        type            zeroGradient;
+    }
+}

@@ -1,0 +1,6 @@
+/* dynamicCode:
+ * SHA1 = 940fdfb388c668e9ca5dc05d775674bb0aee2fa0
+ */
+fixedValueFvPatchFieldTemplate.C
+
+LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/librotatingBC_940fdfb388c668e9ca5dc05d775674bb0aee2fa0
